@@ -1,0 +1,373 @@
+{
+  "products": [
+    {
+      "id": "P001",
+      "sku": "BRS-001",
+      "name": "Beras Premium 5kg",
+      "category": "Sembako",
+      "purchasePrice": 68000,
+      "sellingPrice": 75000,
+      "stock": 45,
+      "minStock": 10,
+      "description": "Beras putih premium kualitas terbaik, kemasan 5kg"
+    },
+    {
+      "id": "P002",
+      "sku": "MYK-001",
+      "name": "Minyak Goreng 2L",
+      "category": "Sembako",
+      "purchasePrice": 32000,
+      "sellingPrice": 36000,
+      "stock": 30,
+      "minStock": 8,
+      "description": "Minyak goreng kemasan botol 2 liter"
+    },
+    {
+      "id": "P003",
+      "sku": "GLA-001",
+      "name": "Gula Pasir 1kg",
+      "category": "Sembako",
+      "purchasePrice": 14500,
+      "sellingPrice": 17000,
+      "stock": 60,
+      "minStock": 15,
+      "description": "Gula pasir putih kemasan 1kg"
+    },
+    {
+      "id": "P004",
+      "sku": "TLP-001",
+      "name": "Telur Ayam 1 Papan",
+      "category": "Sembako",
+      "purchasePrice": 52000,
+      "sellingPrice": 58000,
+      "stock": 20,
+      "minStock": 5,
+      "description": "Telur ayam negeri segar isi 30 butir"
+    },
+    {
+      "id": "P005",
+      "sku": "INM-001",
+      "name": "Indomie Goreng",
+      "category": "Mie & Pasta",
+      "purchasePrice": 2800,
+      "sellingPrice": 3500,
+      "stock": 200,
+      "minStock": 50,
+      "description": "Mie instan goreng rasa original per bungkus"
+    },
+    {
+      "id": "P006",
+      "sku": "INM-002",
+      "name": "Indomie Kuah Ayam Bawang",
+      "category": "Mie & Pasta",
+      "purchasePrice": 2800,
+      "sellingPrice": 3500,
+      "stock": 150,
+      "minStock": 50,
+      "description": "Mie instan kuah rasa ayam bawang per bungkus"
+    },
+    {
+      "id": "P007",
+      "sku": "KPI-001",
+      "name": "Kecap Manis ABC 275ml",
+      "category": "Bumbu & Saus",
+      "purchasePrice": 9500,
+      "sellingPrice": 12000,
+      "stock": 7,
+      "minStock": 10,
+      "description": "Kecap manis ABC botol 275ml"
+    },
+    {
+      "id": "P008",
+      "sku": "SAO-001",
+      "name": "Saos Sambal Indofood 335ml",
+      "category": "Bumbu & Saus",
+      "purchasePrice": 8000,
+      "sellingPrice": 10500,
+      "stock": 5,
+      "minStock": 8,
+      "description": "Saos sambal botol 335ml"
+    },
+    {
+      "id": "P009",
+      "sku": "KPI-002",
+      "name": "Kopi Kapal Api Special 65g",
+      "category": "Minuman",
+      "purchasePrice": 8500,
+      "sellingPrice": 11000,
+      "stock": 80,
+      "minStock": 20,
+      "description": "Kopi bubuk kapal api special sachet 65g"
+    },
+    {
+      "id": "P010",
+      "sku": "THE-001",
+      "name": "Teh Celup Sariwangi 50s",
+      "category": "Minuman",
+      "purchasePrice": 11000,
+      "sellingPrice": 14000,
+      "stock": 55,
+      "minStock": 15,
+      "description": "Teh celup kotak isi 50 sachet"
+    },
+    {
+      "id": "P011",
+      "sku": "SBN-001",
+      "name": "Sabun Mandi Lifebuoy 80g",
+      "category": "Kebersihan",
+      "purchasePrice": 4500,
+      "sellingPrice": 6000,
+      "stock": 3,
+      "minStock": 12,
+      "description": "Sabun mandi batang Lifebuoy 80g"
+    },
+    {
+      "id": "P012",
+      "sku": "SMP-001",
+      "name": "Shampoo Sunsilk Sachet",
+      "category": "Kebersihan",
+      "purchasePrice": 700,
+      "sellingPrice": 1000,
+      "stock": 120,
+      "minStock": 30,
+      "description": "Shampoo sunsilk sachet 10ml"
+    },
+    {
+      "id": "P013",
+      "sku": "DTG-001",
+      "name": "Deterjen Rinso 800g",
+      "category": "Kebersihan",
+      "purchasePrice": 19000,
+      "sellingPrice": 23000,
+      "stock": 25,
+      "minStock": 8,
+      "description": "Deterjen bubuk Rinso kemasan 800g"
+    },
+    {
+      "id": "P014",
+      "sku": "ROK-001",
+      "name": "Rokok Gudang Garam Merah",
+      "category": "Rokok",
+      "purchasePrice": 22000,
+      "sellingPrice": 26000,
+      "stock": 40,
+      "minStock": 10,
+      "description": "Rokok Gudang Garam Merah per bungkus isi 12"
+    },
+    {
+      "id": "P015",
+      "sku": "ROK-002",
+      "name": "Rokok Djarum Super",
+      "category": "Rokok",
+      "purchasePrice": 24000,
+      "sellingPrice": 28000,
+      "stock": 35,
+      "minStock": 10,
+      "description": "Rokok Djarum Super per bungkus isi 12"
+    },
+    {
+      "id": "P016",
+      "sku": "AQA-001",
+      "name": "Air Mineral Aqua 600ml",
+      "category": "Minuman",
+      "purchasePrice": 3000,
+      "sellingPrice": 4000,
+      "stock": 96,
+      "minStock": 24,
+      "description": "Air mineral botol 600ml"
+    },
+    {
+      "id": "P017",
+      "sku": "MSK-001",
+      "name": "Masako Ayam 100g",
+      "category": "Bumbu & Saus",
+      "purchasePrice": 5500,
+      "sellingPrice": 7000,
+      "stock": 45,
+      "minStock": 12,
+      "description": "Penyedap rasa masako ayam 100g"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "TRX-001",
+      "type": "in",
+      "productId": "P001",
+      "productName": "Beras Premium 5kg",
+      "quantity": 20,
+      "date": "2026-10-01",
+      "supplier": "CV. Sumber Makmur",
+      "notes": "Restock bulanan beras premium"
+    },
+    {
+      "id": "TRX-002",
+      "type": "out",
+      "productId": "P001",
+      "productName": "Beras Premium 5kg",
+      "quantity": 5,
+      "date": "2026-10-02",
+      "destination": "Penjualan harian",
+      "notes": "Terjual ke pelanggan tetap"
+    },
+    {
+      "id": "TRX-003",
+      "type": "in",
+      "productId": "P005",
+      "productName": "Indomie Goreng",
+      "quantity": 100,
+      "date": "2026-10-03",
+      "supplier": "PT. Indofood Sukses Makmur",
+      "notes": "Restock mie goreng"
+    },
+    {
+      "id": "TRX-004",
+      "type": "out",
+      "productId": "P005",
+      "productName": "Indomie Goreng",
+      "quantity": 30,
+      "date": "2026-10-05",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan mie goreng minggu pertama"
+    },
+    {
+      "id": "TRX-005",
+      "type": "in",
+      "productId": "P009",
+      "productName": "Kopi Kapal Api Special 65g",
+      "quantity": 50,
+      "date": "2026-10-06",
+      "supplier": "CV. Sumber Rasa",
+      "notes": "Stok kopi bulanan"
+    },
+    {
+      "id": "TRX-006",
+      "type": "out",
+      "productId": "P009",
+      "productName": "Kopi Kapal Api Special 65g",
+      "quantity": 20,
+      "date": "2026-10-08",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan kopi mingguan"
+    },
+    {
+      "id": "TRX-007",
+      "type": "in",
+      "productId": "P012",
+      "productName": "Shampoo Sunsilk Sachet",
+      "quantity": 80,
+      "date": "2026-10-10",
+      "supplier": "PT. Unilever Indonesia",
+      "notes": "Restok shampoo sachet"
+    },
+    {
+      "id": "TRX-008",
+      "type": "out",
+      "productId": "P002",
+      "productName": "Minyak Goreng 2L",
+      "quantity": 10,
+      "date": "2026-10-12",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan minyak goreng"
+    },
+    {
+      "id": "TRX-009",
+      "type": "in",
+      "productId": "P013",
+      "productName": "Deterjen Rinso 800g",
+      "quantity": 15,
+      "date": "2026-10-14",
+      "supplier": "PT. Unilever Indonesia",
+      "notes": "Restock deterjen"
+    },
+    {
+      "id": "TRX-010",
+      "type": "out",
+      "productId": "P014",
+      "productName": "Rokok Gudang Garam Merah",
+      "quantity": 10,
+      "date": "2026-10-15",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan rokok mingguan"
+    },
+    {
+      "id": "TRX-011",
+      "type": "in",
+      "productId": "P016",
+      "productName": "Air Mineral Aqua 600ml",
+      "quantity": 48,
+      "date": "2026-10-16",
+      "supplier": "PT. Tirta Investama",
+      "notes": "Restock air mineral"
+    },
+    {
+      "id": "TRX-012",
+      "type": "out",
+      "productId": "P003",
+      "productName": "Gula Pasir 1kg",
+      "quantity": 15,
+      "date": "2026-10-18",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan gula minggu ketiga"
+    },
+    {
+      "id": "TRX-013",
+      "type": "in",
+      "productId": "P004",
+      "productName": "Telur Ayam 1 Papan",
+      "quantity": 10,
+      "date": "2026-10-20",
+      "supplier": "Pak Budi - Peternak Lokal",
+      "notes": "Restock telur segar"
+    },
+    {
+      "id": "TRX-014",
+      "type": "out",
+      "productId": "P006",
+      "productName": "Indomie Kuah Ayam Bawang",
+      "quantity": 25,
+      "date": "2026-10-22",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan mie kuah"
+    },
+    {
+      "id": "TRX-015",
+      "type": "in",
+      "productId": "P010",
+      "productName": "Teh Celup Sariwangi 50s",
+      "quantity": 30,
+      "date": "2026-10-24",
+      "supplier": "PT. Unilever Indonesia",
+      "notes": "Restock teh celup"
+    },
+    {
+      "id": "TRX-016",
+      "type": "out",
+      "productId": "P016",
+      "productName": "Air Mineral Aqua 600ml",
+      "quantity": 24,
+      "date": "2026-10-26",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan air mineral akhir bulan"
+    },
+    {
+      "id": "TRX-017",
+      "type": "in",
+      "productId": "P007",
+      "productName": "Kecap Manis ABC 275ml",
+      "quantity": 5,
+      "date": "2026-10-28",
+      "supplier": "CV. Sumber Rasa",
+      "notes": "Restock kecap manis"
+    },
+    {
+      "id": "TRX-018",
+      "type": "out",
+      "productId": "P015",
+      "productName": "Rokok Djarum Super",
+      "quantity": 15,
+      "date": "2026-10-30",
+      "destination": "Penjualan harian",
+      "notes": "Penjualan rokok akhir bulan"
+    }
+  ]
+}

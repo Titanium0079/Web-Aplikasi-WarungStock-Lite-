@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WarungStock Lite — Manajemen Stok Barang</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            emerald: {
+              50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0',
+              300: '#6ee7b7', 400: '#34d399', 500: '#10b981',
+              600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-40 z-30 hidden lg:hidden" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-40 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+    <!-- Logo -->
+    <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-100">
+      <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center flex-shrink-0">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-gray-900 leading-tight">WarungStock</h1>
+        <p class="text-xs text-emerald-600 font-medium">Lite</p>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="dashboard">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        Dashboard
+      </button>
+      <button onclick="navigateTo('products')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="products">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+        </svg>
+        Produk
+      </button>
+      <button onclick="navigateTo('stockin')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="stockin">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+        </svg>
+        Barang Masuk
+      </button>
+      <button onclick="navigateTo('stockout')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="stockout">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+        Barang Keluar
+      </button>
+      <button onclick="navigateTo('lowstock')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="lowstock">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+        </svg>
+        Stok Menipis
+        <span id="lowStockBadge" class="ml-auto bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+      </button>
+      <button onclick="navigateTo('history')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="history">
+        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        Riwayat Transaksi
+      </button>
+    </nav>
+
+    <!-- User Info -->
+    <div class="px-4 py-4 border-t border-gray-100">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+          <span class="text-emerald-700 font-bold text-sm">W</span>
+        </div>
+        <div class="min-w-0">
+          <p class="text-sm font-semibold text-gray-800 truncate">Warung Berkah</p>
+          <p class="text-xs text-gray-500 truncate">Pemilik</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="lg:ml-64 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- Mobile menu button -->
+        <button onclick="openSidebar()" class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+        <div>
+          <h2 id="pageTitle" class="text-lg font-bold text-gray-900">Dashboard</h2>
+          <p id="pageSubtitle" class="text-xs text-gray-500 hidden sm:block">Ringkasan inventaris terkini</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="headerDate" class="text-sm text-gray-500 hidden sm:block"></span>
+        <button onclick="resetToDefaultData()" title="Reset Data" class="p-2 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-red-500 transition-colors" title="Reset ke data awal">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-1 p-4 lg:p-6">
+
+      <!-- ========== DASHBOARD PAGE ========== -->
+      <section id="page-dashboard" class="page-content">
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Produk</p>
+              <div class="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+                </svg>
+              </div>
+            </div>
+            <p id="kpiTotalProducts" class="text-2xl font-bold text-gray-900">0</p>
+            <p class="text-xs text-gray-400 mt-1">Jenis produk terdaftar</p>
+          </div>
+          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Stok</p>
+              <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5l5 5-5 5H7V3z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21H5a2 2 0 01-2-2V5a2 2 0 012-2h2"/>
+                </svg>
+              </div>
+            </div>
+            <p id="kpiTotalStock" class="text-2xl font-bold text-gray-900">0</p>
+            <p class="text-xs text-gray-400 mt-1">Unit barang tersedia</p>
+          </div>
+          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Stok Menipis</p>
+              <div class="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                </svg>
+              </div>
+            </div>
+            <p id="kpiLowStock" class="text-2xl font-bold text-gray-900">0</p>
+            <p class="text-xs text-gray-400 mt-1">Produk perlu restock</p>
+          </div>
+          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Nilai Inventaris</p>
+              <div class="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
+                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+            <p id="kpiInventoryValue" class="text-lg font-bold text-gray-900">Rp 0</p>
+            <p class="text-xs text-gray-400 mt-1">Estimasi nilai beli</p>
+          </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+          <div class="lg:col-span-2 bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-700 mb-4">Pergerakan Stok (30 Hari Terakhir)</h3>
+            <div class="chart-container" style="height:220px">
+              <canvas id="chartStockMovement"></canvas>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-700 mb-4">Stok per Kategori</h3>
+            <div class="chart-container" style="height:220px">
+              <canvas id="chartCategory"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-700 mb-4">Top 5 Produk (Stok Terbanyak)</h3>
+            <div class="chart-container" style="height:200px">
+              <canvas id="chartTop5"></canvas>
+            </div>
+          </div>
+          <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+            <h3 class="text-sm font-semibold text-gray-700 mb-1">Transaksi Terbaru</h3>
+            <div id="recentTransactions" class="mt-3 space-y-2 max-h-52 overflow-y-auto pr-1"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== PRODUCTS PAGE ========== -->
+      <section id="page-products" class="page-content hidden">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div class="flex flex-col sm:flex-row gap-2 flex-1">
+            <div class="relative flex-1 max-w-xs">
+              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <input id="productSearch" type="text" placeholder="Cari nama / SKU..." class="pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400" oninput="renderProductTable()" />
+            </div>
+            <select id="categoryFilter" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400" onchange="renderProductTable()">
+              <option value="">Semua Kategori</option>
+            </select>
+            <select id="sortFilter" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400" onchange="renderProductTable()">
+              <option value="name-asc">Nama A-Z</option>
+              <option value="name-desc">Nama Z-A</option>
+              <option value="stock-asc">Stok Terendah</option>
+              <option value="stock-desc">Stok Tertinggi</option>
+              <option value="price-asc">Harga Terendah</option>
+              <option value="price-desc">Harga Tertinggi</option>
+            </select>
+          </div>
+          <button onclick="openProductModal()" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Tambah Produk
+          </button>
+        </div>
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-gray-50 border-b border-gray-200">
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">SKU</th>
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Produk</th>
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Kategori</th>
+                  <th class="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Harga Beli</th>
+                  <th class="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Harga Jual</th>
+                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Stok</th>
+                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
+                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody"></tbody>
+            </table>
+          </div>
+          <div id="productEmpty" class="hidden text-center py-12 text-gray-400">
+            <svg class="w-10 h-10 mx-auto mb-2 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0H4"/>
+            </svg>
+            <p class="text-sm">Tidak ada produk ditemukan</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== STOCK IN PAGE ========== -->
+      <section id="page-stockin" class="page-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+              <h3 class="text-sm font-semibold text-gray-700 mb-4">Form Barang Masuk</h3>
+              <form id="stockInForm" onsubmit="submitStockIn(event)" class="space-y-3">
+                <div>
+                  <label class="form-label">Produk <span class="text-red-500">*</span></label>
+                  <select id="siProduct" class="form-input" required>
+                    <option value="">-- Pilih Produk --</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="form-label">Jumlah <span class="text-red-500">*</span></label>
+                  <input id="siQty" type="number" min="1" placeholder="Contoh: 10" class="form-input" required />
+                </div>
+                <div>
+                  <label class="form-label">Tanggal <span class="text-red-500">*</span></label>
+                  <input id="siDate" type="date" class="form-input" required />
+                </div>
+                <div>
+                  <label class="form-label">Supplier</label>
+                  <input id="siSupplier" type="text" placeholder="Nama supplier / distributor" class="form-input" />
+                </div>
+                <div>
+                  <label class="form-label">Catatan</label>
+                  <textarea id="siNotes" rows="2" placeholder="Catatan tambahan..." class="form-input resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors">
+                  Simpan Barang Masuk
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="lg:col-span-3">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div class="px-5 py-4 border-b border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-700">Riwayat Barang Masuk</h3>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="bg-gray-50 border-b border-gray-200">
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">ID</th>
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Produk</th>
+                      <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Qty</th>
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Tanggal</th>
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Supplier</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stockInTableBody"></tbody>
+                </table>
+              </div>
+              <div id="stockInEmpty" class="hidden text-center py-10 text-gray-400 text-sm">Belum ada transaksi masuk</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== STOCK OUT PAGE ========== -->
+      <section id="page-stockout" class="page-content hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+              <h3 class="text-sm font-semibold text-gray-700 mb-4">Form Barang Keluar</h3>
+              <form id="stockOutForm" onsubmit="submitStockOut(event)" class="space-y-3">
+                <div>
+                  <label class="form-label">Produk <span class="text-red-500">*</span></label>
+                  <select id="soProduct" class="form-input" required onchange="updateStockOutInfo()">
+                    <option value="">-- Pilih Produk --</option>
+                  </select>
+                  <p id="soCurrentStock" class="text-xs text-gray-400 mt-1"></p>
+                </div>
+                <div>
+                  <label class="form-label">Jumlah <span class="text-red-500">*</span></label>
+                  <input id="soQty" type="number" min="1" placeholder="Contoh: 5" class="form-input" required />
+                </div>
+                <div>
+                  <label class="form-label">Tanggal <span class="text-red-500">*</span></label>
+                  <input id="soDate" type="date" class="form-input" required />
+                </div>
+                <div>
+                  <label class="form-label">Tujuan / Keterangan</label>
+                  <input id="soDestination" type="text" placeholder="Contoh: Penjualan harian" class="form-input" />
+                </div>
+                <div>
+                  <label class="form-label">Catatan</label>
+                  <textarea id="soNotes" rows="2" placeholder="Catatan tambahan..." class="form-input resize-none"></textarea>
+                </div>
+                <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2.5 rounded-lg transition-colors">
+                  Simpan Barang Keluar
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="lg:col-span-3">
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+              <div class="px-5 py-4 border-b border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-700">Riwayat Barang Keluar</h3>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="bg-gray-50 border-b border-gray-200">
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">ID</th>
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Produk</th>
+                      <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Qty</th>
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Tanggal</th>
+                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Tujuan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stockOutTableBody"></tbody>
+                </table>
+              </div>
+              <div id="stockOutEmpty" class="hidden text-center py-10 text-gray-400 text-sm">Belum ada transaksi keluar</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== LOW STOCK PAGE ========== -->
+      <section id="page-lowstock" class="page-content hidden">
+        <div class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
+          <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+          </svg>
+          <div>
+            <p class="text-sm font-semibold text-amber-800">Perhatian Stok Menipis</p>
+            <p class="text-xs text-amber-700 mt-0.5">Produk-produk berikut membutuhkan perhatian segera. Segera lakukan restock untuk menghindari kehabisan stok.</p>
+          </div>
+        </div>
+        <div id="lowStockGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div id="lowStockEmpty" class="hidden text-center py-16 text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-3 opacity-40 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <p class="text-sm font-medium text-gray-500">Semua stok dalam kondisi aman!</p>
+        </div>
+      </section>
+
+      <!-- ========== HISTORY PAGE ========== -->
+      <section id="page-history" class="page-content hidden">
+        <div class="flex flex-col sm:flex-row gap-2 mb-5">
+          <select id="historyTypeFilter" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300" onchange="renderHistoryTable()">
+            <option value="">Semua Jenis</option>
+            <option value="in">Barang Masuk</option>
+            <option value="out">Barang Keluar</option>
+          </select>
+          <input id="historyDateFrom" type="date" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300" onchange="renderHistoryTable()" />
+          <input id="historyDateTo" type="date" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300" onchange="renderHistoryTable()" />
+          <button onclick="clearHistoryFilter()" class="text-sm text-gray-500 hover:text-gray-700 px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Reset Filter</button>
+        </div>
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-gray-50 border-b border-gray-200">
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">ID</th>
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Produk</th>
+                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Jenis</th>
+                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Qty</th>
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Tanggal</th>
+                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody"></tbody>
+            </table>
+          </div>
+          <div id="historyEmpty" class="hidden text-center py-10 text-gray-400 text-sm">Tidak ada riwayat transaksi</div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========== PRODUCT MODAL ========== -->
+  <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-40" onclick="closeProductModal()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-screen overflow-y-auto">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+        <h3 id="modalTitle" class="text-base font-bold text-gray-900">Tambah Produk</h3>
+        <button onclick="closeProductModal()" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <form id="productForm" onsubmit="saveProduct(event)" class="px-6 py-5 space-y-4">
+        <input type="hidden" id="productId" />
+        <div class="grid grid-cols-2 gap-4">
+          <div class="col-span-2">
+            <label class="form-label">Nama Produk <span class="text-red-500">*</span></label>
+            <input id="productName" type="text" placeholder="Contoh: Beras Premium 5kg" class="form-input" required />
+          </div>
+          <div>
+            <label class="form-label">SKU <span class="text-red-500">*</span></label>
+            <input id="productSku" type="text" placeholder="Contoh: BRS-001" class="form-input" required />
+          </div>
+          <div>
+            <label class="form-label">Kategori <span class="text-red-500">*</span></label>
+            <input id="productCategory" type="text" placeholder="Contoh: Sembako" class="form-input" required list="categoryList" />
+            <datalist id="categoryList"></datalist>
+          </div>
+          <div>
+            <label class="form-label">Harga Beli (Rp) <span class="text-red-500">*</span></label>
+            <input id="productPurchasePrice" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div>
+            <label class="form-label">Harga Jual (Rp) <span class="text-red-500">*</span></label>
+            <input id="productSellingPrice" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div>
+            <label class="form-label">Stok Awal <span class="text-red-500">*</span></label>
+            <input id="productStock" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div>
+            <label class="form-label">Minimum Stok <span class="text-red-500">*</span></label>
+            <input id="productMinStock" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div class="col-span-2">
+            <label class="form-label">Deskripsi</label>
+            <textarea id="productDescription" rows="2" placeholder="Deskripsi produk..." class="form-input resize-none"></textarea>
+          </div>
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" onclick="closeProductModal()" class="flex-1 text-sm font-medium py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
+          <button type="submit" class="flex-1 text-sm font-medium py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========== DELETE CONFIRM MODAL ========== -->
+  <div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-40" onclick="closeDeleteModal()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-gray-900">Hapus Produk</h3>
+          <p id="deleteProductName" class="text-sm text-gray-500 mt-0.5"></p>
+        </div>
+      </div>
+      <p class="text-sm text-gray-600 mb-5">Tindakan ini tidak dapat dibatalkan. Data produk dan riwayat terkait akan dihapus permanen.</p>
+      <div class="flex gap-3">
+        <button onclick="closeDeleteModal()" class="flex-1 text-sm font-medium py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
+        <button onclick="confirmDelete()" class="flex-1 text-sm font-medium py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-[60] space-y-2 pointer-events-none"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
