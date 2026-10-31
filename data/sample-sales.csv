@@ -1,0 +1,101 @@
+date,product,category,quantity,price
+2026-10-01,Beras Premium 5kg,Sembako,5,75000
+2026-10-01,Minyak Goreng 2L,Sembako,8,36000
+2026-10-01,Indomie Goreng,Mie & Pasta,30,3500
+2026-10-01,Kopi Kapal Api 65g,Minuman,12,11000
+2026-10-01,Sabun Lifebuoy 80g,Kebersihan,10,6000
+2026-10-02,Gula Pasir 1kg,Sembako,10,17000
+2026-10-02,Telur Ayam 1 Papan,Sembako,3,58000
+2026-10-02,Indomie Kuah Ayam,Mie & Pasta,20,3500
+2026-10-02,Teh Celup Sariwangi,Minuman,8,14000
+2026-10-02,Shampoo Sunsilk Sachet,Kebersihan,25,1000
+2026-10-03,Beras Premium 5kg,Sembako,4,75000
+2026-10-03,Rokok Gudang Garam,Rokok,15,26000
+2026-10-03,Kecap Manis ABC,Bumbu & Saus,6,12000
+2026-10-03,Indomie Goreng,Mie & Pasta,25,3500
+2026-10-03,Air Mineral Aqua 600ml,Minuman,24,4000
+2026-10-04,Minyak Goreng 2L,Sembako,6,36000
+2026-10-04,Masako Ayam 100g,Bumbu & Saus,10,7000
+2026-10-04,Deterjen Rinso 800g,Kebersihan,4,23000
+2026-10-04,Rokok Djarum Super,Rokok,10,28000
+2026-10-04,Indomie Goreng,Mie & Pasta,18,3500
+2026-10-05,Gula Pasir 1kg,Sembako,8,17000
+2026-10-05,Kopi Kapal Api 65g,Minuman,15,11000
+2026-10-05,Beras Premium 5kg,Sembako,6,75000
+2026-10-05,Saos Sambal Indofood,Bumbu & Saus,5,10500
+2026-10-05,Air Mineral Aqua 600ml,Minuman,18,4000
+2026-10-06,Telur Ayam 1 Papan,Sembako,5,58000
+2026-10-06,Indomie Kuah Ayam,Mie & Pasta,22,3500
+2026-10-06,Shampoo Sunsilk Sachet,Kebersihan,30,1000
+2026-10-06,Rokok Gudang Garam,Rokok,12,26000
+2026-10-06,Teh Celup Sariwangi,Minuman,10,14000
+2026-10-07,Beras Premium 5kg,Sembako,7,75000
+2026-10-07,Minyak Goreng 2L,Sembako,5,36000
+2026-10-07,Indomie Goreng,Mie & Pasta,35,3500
+2026-10-07,Kecap Manis ABC,Bumbu & Saus,4,12000
+2026-10-07,Deterjen Rinso 800g,Kebersihan,3,23000
+2026-10-08,Gula Pasir 1kg,Sembako,12,17000
+2026-10-08,Rokok Djarum Super,Rokok,8,28000
+2026-10-08,Air Mineral Aqua 600ml,Minuman,30,4000
+2026-10-08,Masako Ayam 100g,Bumbu & Saus,8,7000
+2026-10-08,Indomie Goreng,Mie & Pasta,20,3500
+2026-10-09,Beras Premium 5kg,Sembako,5,75000
+2026-10-09,Sabun Lifebuoy 80g,Kebersihan,8,6000
+2026-10-09,Kopi Kapal Api 65g,Minuman,10,11000
+2026-10-09,Rokok Gudang Garam,Rokok,14,26000
+2026-10-09,Teh Celup Sariwangi,Minuman,6,14000
+2026-10-10,Telur Ayam 1 Papan,Sembako,4,58000
+2026-10-10,Indomie Kuah Ayam,Mie & Pasta,18,3500
+2026-10-10,Minyak Goreng 2L,Sembako,7,36000
+2026-10-10,Shampoo Sunsilk Sachet,Kebersihan,20,1000
+2026-10-10,Air Mineral Aqua 600ml,Minuman,24,4000
+2026-10-11,Beras Premium 5kg,Sembako,8,75000
+2026-10-11,Gula Pasir 1kg,Sembako,6,17000
+2026-10-11,Indomie Goreng,Mie & Pasta,28,3500
+2026-10-11,Rokok Djarum Super,Rokok,10,28000
+2026-10-11,Kecap Manis ABC,Bumbu & Saus,5,12000
+2026-10-12,Minyak Goreng 2L,Sembako,4,36000
+2026-10-12,Kopi Kapal Api 65g,Minuman,12,11000
+2026-10-12,Deterjen Rinso 800g,Kebersihan,5,23000
+2026-10-12,Saos Sambal Indofood,Bumbu & Saus,6,10500
+2026-10-12,Air Mineral Aqua 600ml,Minuman,36,4000
+2026-10-13,Beras Premium 5kg,Sembako,6,75000
+2026-10-13,Telur Ayam 1 Papan,Sembako,3,58000
+2026-10-13,Indomie Goreng,Mie & Pasta,32,3500
+2026-10-13,Rokok Gudang Garam,Rokok,16,26000
+2026-10-13,Teh Celup Sariwangi,Minuman,8,14000
+2026-10-14,Gula Pasir 1kg,Sembako,10,17000
+2026-10-14,Shampoo Sunsilk Sachet,Kebersihan,35,1000
+2026-10-14,Masako Ayam 100g,Bumbu & Saus,12,7000
+2026-10-14,Indomie Kuah Ayam,Mie & Pasta,24,3500
+2026-10-14,Air Mineral Aqua 600ml,Minuman,20,4000
+2026-10-15,Beras Premium 5kg,Sembako,5,75000
+2026-10-15,Minyak Goreng 2L,Sembako,8,36000
+2026-10-15,Rokok Djarum Super,Rokok,12,28000
+2026-10-15,Kecap Manis ABC,Bumbu & Saus,7,12000
+2026-10-15,Kopi Kapal Api 65g,Minuman,14,11000
+2026-10-16,Gula Pasir 1kg,Sembako,9,17000
+2026-10-16,Indomie Goreng,Mie & Pasta,40,3500
+2026-10-16,Sabun Lifebuoy 80g,Kebersihan,6,6000
+2026-10-16,Telur Ayam 1 Papan,Sembako,4,58000
+2026-10-16,Air Mineral Aqua 600ml,Minuman,28,4000
+2026-10-17,Beras Premium 5kg,Sembako,7,75000
+2026-10-17,Deterjen Rinso 800g,Kebersihan,4,23000
+2026-10-17,Rokok Gudang Garam,Rokok,11,26000
+2026-10-17,Teh Celup Sariwangi,Minuman,9,14000
+2026-10-17,Indomie Kuah Ayam,Mie & Pasta,16,3500
+2026-10-18,Minyak Goreng 2L,Sembako,6,36000
+2026-10-18,Shampoo Sunsilk Sachet,Kebersihan,28,1000
+2026-10-18,Kopi Kapal Api 65g,Minuman,11,11000
+2026-10-18,Masako Ayam 100g,Bumbu & Saus,9,7000
+2026-10-18,Indomie Goreng,Mie & Pasta,22,3500
+2026-10-19,Beras Premium 5kg,Sembako,8,75000
+2026-10-19,Gula Pasir 1kg,Sembako,7,17000
+2026-10-19,Rokok Djarum Super,Rokok,9,28000
+2026-10-19,Air Mineral Aqua 600ml,Minuman,32,4000
+2026-10-19,Kecap Manis ABC,Bumbu & Saus,4,12000
+2026-10-20,Telur Ayam 1 Papan,Sembako,5,58000
+2026-10-20,Indomie Goreng,Mie & Pasta,38,3500
+2026-10-20,Sabun Lifebuoy 80g,Kebersihan,7,6000
+2026-10-20,Teh Celup Sariwangi,Minuman,10,14000
+2026-10-20,Rokok Gudang Garam,Rokok,13,26000

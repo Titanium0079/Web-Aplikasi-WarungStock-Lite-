@@ -3,532 +3,747 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WarungStock Lite — Manajemen Stok Barang</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            emerald: {
-              50: '#ecfdf5', 100: '#d1fae5', 200: '#a7f3d0',
-              300: '#6ee7b7', 400: '#34d399', 500: '#10b981',
-              600: '#059669', 700: '#047857', 800: '#065f46', 900: '#064e3b'
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <title>SmartBiz Insight — AI-Powered Business Data Analyzer</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="bg-gray-50 font-sans antialiased">
+<body>
 
-  <!-- Sidebar Overlay (mobile) -->
-  <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-40 z-30 hidden lg:hidden" onclick="closeSidebar()"></div>
+<div id="sidebarOverlay"></div>
 
-  <!-- Sidebar -->
-  <aside id="sidebar" class="sidebar fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-40 flex flex-col transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+<!-- ═══ SIDEBAR ══════════════════════════════════════════════ -->
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+
     <!-- Logo -->
-    <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-100">
-      <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center flex-shrink-0">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
         </svg>
       </div>
-      <div>
-        <h1 class="text-base font-bold text-gray-900 leading-tight">WarungStock</h1>
-        <p class="text-xs text-emerald-600 font-medium">Lite</p>
+      <div class="logo-text">
+        <h1>SmartBiz</h1>
+        <span>Insight ✦ AI</span>
       </div>
     </div>
 
-    <!-- Navigation -->
-    <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-      <button onclick="navigateTo('dashboard')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="dashboard">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+    <!-- Nav -->
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu Utama</div>
+
+      <button class="nav-item" data-section="dashboard">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
         </svg>
         Dashboard
       </button>
-      <button onclick="navigateTo('products')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="products">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+
+      <button class="nav-item" data-section="upload">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+        </svg>
+        Upload Data
+      </button>
+
+      <button class="nav-item" data-section="export">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+        </svg>
+        Export Laporan
+      </button>
+
+      <!-- ── INVENTORY section ── -->
+      <div class="nav-section-label" style="margin-top:8px">Inventaris Stok</div>
+
+      <button class="nav-item" data-section="inv-products">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
         </svg>
         Produk
       </button>
-      <button onclick="navigateTo('stockin')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="stockin">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
+
+      <button class="nav-item" data-section="inv-stockin">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"/>
         </svg>
         Barang Masuk
       </button>
-      <button onclick="navigateTo('stockout')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="stockout">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+
+      <button class="nav-item" data-section="inv-stockout">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 8l4 4m0 0l-4 4m4-4H3"/>
         </svg>
         Barang Keluar
       </button>
-      <button onclick="navigateTo('lowstock')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="lowstock">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+
+      <button class="nav-item" data-section="inv-lowstock">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
         </svg>
         Stok Menipis
-        <span id="lowStockBadge" class="ml-auto bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+        <span id="invLowStockBadge" class="hidden" style="margin-left:auto;background:#fee2e2;color:#991b1b;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px">0</span>
       </button>
-      <button onclick="navigateTo('history')" class="nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors" data-page="history">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+
+      <button class="nav-item" data-section="inv-history">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
         </svg>
-        Riwayat Transaksi
+        Riwayat Stok
       </button>
     </nav>
 
-    <!-- User Info -->
-    <div class="px-4 py-4 border-t border-gray-100">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-          <span class="text-emerald-700 font-bold text-sm">W</span>
-        </div>
-        <div class="min-w-0">
-          <p class="text-sm font-semibold text-gray-800 truncate">Warung Berkah</p>
-          <p class="text-xs text-gray-500 truncate">Pemilik</p>
+    <!-- Footer -->
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="user-avatar">S</div>
+        <div class="user-info">
+          <p>SmartBiz User</p>
+          <span>UMKM Analytics</span>
         </div>
       </div>
     </div>
   </aside>
 
-  <!-- Main Content -->
-  <div class="lg:ml-64 min-h-screen flex flex-col">
+  <!-- ═══ MAIN CONTENT ════════════════════════════════════════ -->
+  <div class="main-content" id="mainContent">
 
-    <!-- Header -->
-    <header class="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 lg:px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <!-- Mobile menu button -->
-        <button onclick="openSidebar()" class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="top-header-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
         </button>
-        <div>
-          <h2 id="pageTitle" class="text-lg font-bold text-gray-900">Dashboard</h2>
-          <p id="pageSubtitle" class="text-xs text-gray-500 hidden sm:block">Ringkasan inventaris terkini</p>
+        <div class="page-title-area">
+          <h2 id="pageTitle">Dashboard</h2>
+          <p id="pageSubtitle">Ringkasan performa bisnis</p>
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <span id="headerDate" class="text-sm text-gray-500 hidden sm:block"></span>
-        <button onclick="resetToDefaultData()" title="Reset Data" class="p-2 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-red-500 transition-colors" title="Reset ke data awal">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      <div class="top-bar-right">
+        <span id="headerDate" style="font-size:12px"></span>
+        <button class="btn-icon" id="darkModeToggle" title="Toggle dark mode">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
           </svg>
         </button>
       </div>
     </header>
 
     <!-- Page Content -->
-    <main class="flex-1 p-4 lg:p-6">
+    <div class="page-content">
 
-      <!-- ========== DASHBOARD PAGE ========== -->
-      <section id="page-dashboard" class="page-content">
-        <!-- KPI Cards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Produk</p>
-              <div class="w-9 h-9 rounded-lg bg-emerald-50 flex items-center justify-center">
-                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+      <!-- ═══ SECTION: DASHBOARD ═══════════════════════════════ -->
+      <div id="section-dashboard" class="section active">
+
+        <!-- KPI Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">Total Revenue</span>
+              <div class="kpi-icon green">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
               </div>
             </div>
-            <p id="kpiTotalProducts" class="text-2xl font-bold text-gray-900">0</p>
-            <p class="text-xs text-gray-400 mt-1">Jenis produk terdaftar</p>
+            <div id="kpiRevenue" class="kpi-value">Rp 0</div>
+            <div class="kpi-sub">Total pendapatan dari semua transaksi</div>
           </div>
-          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Total Stok</p>
-              <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center">
-                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5l5 5-5 5H7V3z"/>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21H5a2 2 0 01-2-2V5a2 2 0 012-2h2"/>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">Total Transaksi</span>
+              <div class="kpi-icon blue">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                 </svg>
               </div>
             </div>
-            <p id="kpiTotalStock" class="text-2xl font-bold text-gray-900">0</p>
-            <p class="text-xs text-gray-400 mt-1">Unit barang tersedia</p>
+            <div id="kpiTransactions" class="kpi-value">0</div>
+            <div class="kpi-sub">Jumlah baris data penjualan</div>
           </div>
-          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Stok Menipis</p>
-              <div class="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center">
-                <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">Total Produk</span>
+              <div class="kpi-icon purple">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
                 </svg>
               </div>
             </div>
-            <p id="kpiLowStock" class="text-2xl font-bold text-gray-900">0</p>
-            <p class="text-xs text-gray-400 mt-1">Produk perlu restock</p>
+            <div id="kpiProducts" class="kpi-value">0</div>
+            <div class="kpi-sub">Jumlah produk unik</div>
           </div>
-          <div class="kpi-card bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
-            <div class="flex items-center justify-between mb-3">
-              <p class="text-xs font-medium text-gray-500 uppercase tracking-wide">Nilai Inventaris</p>
-              <div class="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
-                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-label">Rata-rata Transaksi</span>
+              <div class="kpi-icon amber">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                 </svg>
               </div>
             </div>
-            <p id="kpiInventoryValue" class="text-lg font-bold text-gray-900">Rp 0</p>
-            <p class="text-xs text-gray-400 mt-1">Estimasi nilai beli</p>
+            <div id="kpiAvgTransaction" class="kpi-value">Rp 0</div>
+            <div class="kpi-sub">Nilai rata-rata per transaksi</div>
           </div>
         </div>
 
         <!-- Charts Row 1 -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-          <div class="lg:col-span-2 bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-700 mb-4">Pergerakan Stok (30 Hari Terakhir)</h3>
-            <div class="chart-container" style="height:220px">
-              <canvas id="chartStockMovement"></canvas>
+        <div class="chart-grid-2 mb-5">
+          <div class="card">
+            <div class="card-header"><h3>Revenue Harian</h3></div>
+            <div class="card-body">
+              <div class="chart-wrap" style="height:220px">
+                <canvas id="chartRevenueLine"></canvas>
+              </div>
             </div>
           </div>
-          <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-700 mb-4">Stok per Kategori</h3>
-            <div class="chart-container" style="height:220px">
-              <canvas id="chartCategory"></canvas>
+          <div class="card">
+            <div class="card-header"><h3>Revenue per Kategori</h3></div>
+            <div class="card-body">
+              <div class="chart-wrap" style="height:220px">
+                <canvas id="chartCategoryDoughnut"></canvas>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Charts Row 2 -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-700 mb-4">Top 5 Produk (Stok Terbanyak)</h3>
-            <div class="chart-container" style="height:200px">
-              <canvas id="chartTop5"></canvas>
+        <!-- Charts Row 2 + Activity -->
+        <div class="chart-grid-equal">
+          <div class="card">
+            <div class="card-header"><h3>Top Produk — Revenue</h3></div>
+            <div class="card-body">
+              <div class="chart-wrap" style="height:200px">
+                <canvas id="chartTopProducts"></canvas>
+              </div>
             </div>
           </div>
-          <div class="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-            <h3 class="text-sm font-semibold text-gray-700 mb-1">Transaksi Terbaru</h3>
-            <div id="recentTransactions" class="mt-3 space-y-2 max-h-52 overflow-y-auto pr-1"></div>
+          <div class="card">
+            <div class="card-header"><h3>Perbandingan Kategori</h3></div>
+            <div class="card-body">
+              <div class="chart-wrap" style="height:200px">
+                <canvas id="chartCategoryBar"></canvas>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      <!-- ========== PRODUCTS PAGE ========== -->
-      <section id="page-products" class="page-content hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-          <div class="flex flex-col sm:flex-row gap-2 flex-1">
-            <div class="relative flex-1 max-w-xs">
-              <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-              <input id="productSearch" type="text" placeholder="Cari nama / SKU..." class="pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400" oninput="renderProductTable()" />
+        <!-- Bottom Row: Top Products + Activity -->
+        <div class="chart-grid-equal mt-5">
+          <div class="card">
+            <div class="card-header"><h3>Produk dengan Performa Terbaik</h3></div>
+            <div class="card-body">
+              <div id="topProductsList">
+                <p class="text-muted">Memuat data...</p>
+              </div>
             </div>
-            <select id="categoryFilter" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400" onchange="renderProductTable()">
+          </div>
+          <div class="card">
+            <div class="card-header"><h3>Aktivitas Penjualan Terbaru</h3></div>
+            <div class="card-body">
+              <div id="activityList">
+                <p class="text-muted">Memuat data...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /section-dashboard -->
+
+
+      <!-- ═══ SECTION: UPLOAD DATA ════════════════════════════ -->
+      <div id="section-upload" class="section">
+
+        <div class="chart-grid-equal">
+          <!-- Upload Card -->
+          <div class="card">
+            <div class="card-header"><h3>Upload File CSV</h3></div>
+            <div class="card-body">
+              <input type="file" id="csvFileInput" accept=".csv" class="hidden" />
+
+              <div class="upload-zone" id="dropZone">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <p><strong>Drag &amp; drop</strong> file CSV di sini</p>
+                <p class="upload-hint">atau klik tombol "Pilih File" di bawah</p>
+                <p class="upload-hint" style="margin-top:8px">Format: date, product, category, quantity, price</p>
+              </div>
+
+              <div class="upload-actions">
+                <button class="btn btn-primary" id="browseBtn">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+                  </svg>
+                  Pilih File CSV
+                </button>
+                <button class="btn btn-outline" id="loadSampleBtn">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                  Gunakan Data Contoh
+                </button>
+                <button class="btn btn-danger btn-sm" id="clearDataBtn">Hapus Data</button>
+              </div>
+
+              <button class="btn btn-primary mt-3 hidden" id="applyUploadBtn" style="width:100%">
+                Terapkan ke Dashboard →
+              </button>
+            </div>
+          </div>
+
+          <!-- Format Guide Card -->
+          <div class="card">
+            <div class="card-header"><h3>Panduan Format CSV</h3></div>
+            <div class="card-body">
+              <p style="font-size:13px; color:var(--gray-600); margin-bottom:12px">
+                Pastikan file CSV Anda memiliki 5 kolom berikut (baris pertama = header):
+              </p>
+              <div class="preview-table-wrap" style="margin-top:0">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Kolom</th><th>Tipe</th><th>Contoh</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>date</code></td><td>Tanggal</td><td>2026-10-01</td></tr>
+                    <tr><td><code>product</code></td><td>Teks</td><td>Beras Premium 5kg</td></tr>
+                    <tr><td><code>category</code></td><td>Teks</td><td>Sembako</td></tr>
+                    <tr><td><code>quantity</code></td><td>Angka</td><td>5</td></tr>
+                    <tr><td><code>price</code></td><td>Angka</td><td>75000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style="font-size:11px;color:var(--gray-400);margin-top:10px">
+                Revenue dihitung otomatis: quantity × price<br/>
+                Format tanggal yang didukung: YYYY-MM-DD
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validation & Preview -->
+        <div id="upload-validation"></div>
+        <div id="previewTableWrap" class="hidden"></div>
+
+      </div><!-- /section-upload -->
+
+
+      <!-- ═══ SECTION: EXPORT ══════════════════════════════════ -->
+      <div id="section-export" class="section">
+
+        <div class="chart-grid-equal">
+          <!-- Export Options -->
+          <div class="card">
+            <div class="card-header"><h3>Unduh Laporan</h3></div>
+            <div class="card-body">
+              <p style="font-size:13px;color:var(--gray-600);margin-bottom:4px">
+                Laporan mencakup: KPI, performa produk, performa kategori, dan AI Insights (jika tersedia).
+              </p>
+              <div class="export-grid">
+                <div class="export-option" id="exportCSVBtn">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  <div class="export-option-info">
+                    <p>Export CSV</p>
+                    <span>Data lengkap + ringkasan KPI</span>
+                  </div>
+                </div>
+                <div class="export-option" id="exportTXTBtn">
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  <div class="export-option-info">
+                    <p>Export TXT</p>
+                    <span>Laporan naratif + AI Insights</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Summary Preview -->
+          <div class="card">
+            <div class="card-header"><h3>Ringkasan Data Aktif</h3></div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                <div style="padding:12px;background:var(--gray-50);border-radius:8px">
+                  <p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.04em">Total Revenue</p>
+                  <p id="exportKpiRevenue" style="font-size:16px;font-weight:700;color:var(--gray-900);margin-top:2px">—</p>
+                </div>
+                <div style="padding:12px;background:var(--gray-50);border-radius:8px">
+                  <p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.04em">Transaksi</p>
+                  <p id="exportKpiTrx" style="font-size:16px;font-weight:700;color:var(--gray-900);margin-top:2px">—</p>
+                </div>
+                <div style="padding:12px;background:var(--gray-50);border-radius:8px">
+                  <p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.04em">Produk Unik</p>
+                  <p id="exportKpiProd" style="font-size:16px;font-weight:700;color:var(--gray-900);margin-top:2px">—</p>
+                </div>
+                <div style="padding:12px;background:var(--gray-50);border-radius:8px">
+                  <p style="font-size:11px;color:var(--gray-400);text-transform:uppercase;letter-spacing:.04em">AI Insights</p>
+                  <p id="exportKpiAI" style="font-size:13px;font-weight:600;margin-top:2px">—</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /section-export -->
+
+
+      <!-- ═══ SECTION: PRODUK ══════════════════════════════════ -->
+      <div id="section-inv-products" class="section">
+        <!-- Toolbar -->
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;flex:1">
+            <div style="position:relative;flex:1;max-width:260px">
+              <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--gray-400)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input id="invSearch" type="text" placeholder="Cari nama / SKU..." class="form-input" style="padding-left:32px" oninput="Inventory.renderProducts()" />
+            </div>
+            <select id="invCatFilter" class="form-input" style="width:auto" onchange="Inventory.renderProducts()">
               <option value="">Semua Kategori</option>
             </select>
-            <select id="sortFilter" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:border-emerald-400" onchange="renderProductTable()">
-              <option value="name-asc">Nama A-Z</option>
-              <option value="name-desc">Nama Z-A</option>
+            <select id="invSort" class="form-input" style="width:auto" onchange="Inventory.renderProducts()">
+              <option value="name-asc">Nama A–Z</option>
+              <option value="name-desc">Nama Z–A</option>
               <option value="stock-asc">Stok Terendah</option>
               <option value="stock-desc">Stok Tertinggi</option>
               <option value="price-asc">Harga Terendah</option>
               <option value="price-desc">Harga Tertinggi</option>
             </select>
           </div>
-          <button onclick="openProductModal()" class="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors whitespace-nowrap">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
+          <button class="btn btn-primary" onclick="Inventory.openProductModal()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
             Tambah Produk
           </button>
         </div>
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+
+        <div class="card">
+          <div class="inv-table-wrap">
+            <table>
               <thead>
-                <tr class="bg-gray-50 border-b border-gray-200">
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">SKU</th>
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Produk</th>
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden md:table-cell">Kategori</th>
-                  <th class="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide hidden lg:table-cell">Harga Beli</th>
-                  <th class="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Harga Jual</th>
-                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Stok</th>
-                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
-                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Aksi</th>
+                <tr>
+                  <th>SKU</th><th>Produk</th>
+                  <th class="hidden-sm">Kategori</th>
+                  <th class="hidden-md" style="text-align:right">Harga Beli</th>
+                  <th style="text-align:right">Harga Jual</th>
+                  <th style="text-align:center">Stok</th>
+                  <th style="text-align:center">Status</th>
+                  <th style="text-align:center">Aksi</th>
                 </tr>
               </thead>
-              <tbody id="productTableBody"></tbody>
+              <tbody id="invProductTbody"></tbody>
             </table>
           </div>
-          <div id="productEmpty" class="hidden text-center py-12 text-gray-400">
-            <svg class="w-10 h-10 mx-auto mb-2 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0H4"/>
-            </svg>
-            <p class="text-sm">Tidak ada produk ditemukan</p>
+          <div id="invProductEmpty" class="hidden" style="text-align:center;padding:40px 24px;color:var(--gray-400)">
+            <p style="font-size:13px">Tidak ada produk ditemukan.</p>
           </div>
         </div>
-      </section>
+      </div><!-- /section-inv-products -->
 
-      <!-- ========== STOCK IN PAGE ========== -->
-      <section id="page-stockin" class="page-content hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          <div class="lg:col-span-2">
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-              <h3 class="text-sm font-semibold text-gray-700 mb-4">Form Barang Masuk</h3>
-              <form id="stockInForm" onsubmit="submitStockIn(event)" class="space-y-3">
-                <div>
-                  <label class="form-label">Produk <span class="text-red-500">*</span></label>
-                  <select id="siProduct" class="form-input" required>
+
+      <!-- ═══ SECTION: BARANG MASUK ════════════════════════════ -->
+      <div id="section-inv-stockin" class="section">
+        <div style="display:grid;grid-template-columns:2fr 3fr;gap:20px">
+
+          <!-- Form -->
+          <div class="card">
+            <div class="card-header"><h3>Form Barang Masuk</h3></div>
+            <div class="card-body">
+              <form id="invStockInForm" onsubmit="Inventory.submitStockIn(event)">
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label">Produk *</label>
+                  <select id="invSiProduct" class="form-input" required>
                     <option value="">-- Pilih Produk --</option>
                   </select>
                 </div>
-                <div>
-                  <label class="form-label">Jumlah <span class="text-red-500">*</span></label>
-                  <input id="siQty" type="number" min="1" placeholder="Contoh: 10" class="form-input" required />
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label">Jumlah *</label>
+                  <input id="invSiQty" type="number" min="1" placeholder="Contoh: 10" class="form-input" required />
                 </div>
-                <div>
-                  <label class="form-label">Tanggal <span class="text-red-500">*</span></label>
-                  <input id="siDate" type="date" class="form-input" required />
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label">Tanggal *</label>
+                  <input id="invSiDate" type="date" class="form-input" required />
                 </div>
-                <div>
+                <div class="form-group" style="margin-bottom:12px">
                   <label class="form-label">Supplier</label>
-                  <input id="siSupplier" type="text" placeholder="Nama supplier / distributor" class="form-input" />
+                  <input id="invSiSupplier" type="text" placeholder="Nama supplier / distributor" class="form-input" />
                 </div>
-                <div>
+                <div class="form-group" style="margin-bottom:16px">
                   <label class="form-label">Catatan</label>
-                  <textarea id="siNotes" rows="2" placeholder="Catatan tambahan..." class="form-input resize-none"></textarea>
+                  <textarea id="invSiNotes" rows="2" placeholder="Catatan tambahan..." class="form-input" style="resize:vertical"></textarea>
                 </div>
-                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium py-2.5 rounded-lg transition-colors">
-                  Simpan Barang Masuk
-                </button>
+                <button type="submit" class="btn btn-primary" style="width:100%">Simpan Barang Masuk</button>
               </form>
             </div>
           </div>
-          <div class="lg:col-span-3">
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div class="px-5 py-4 border-b border-gray-100">
-                <h3 class="text-sm font-semibold text-gray-700">Riwayat Barang Masuk</h3>
-              </div>
-              <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                  <thead>
-                    <tr class="bg-gray-50 border-b border-gray-200">
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">ID</th>
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Produk</th>
-                      <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Qty</th>
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Tanggal</th>
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Supplier</th>
-                    </tr>
-                  </thead>
-                  <tbody id="stockInTableBody"></tbody>
-                </table>
-              </div>
-              <div id="stockInEmpty" class="hidden text-center py-10 text-gray-400 text-sm">Belum ada transaksi masuk</div>
+
+          <!-- Table -->
+          <div class="card">
+            <div class="card-header"><h3>Riwayat Barang Masuk</h3></div>
+            <div class="inv-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th><th>Produk</th><th style="text-align:center">Qty</th>
+                    <th class="hidden-sm">Tanggal</th>
+                    <th class="hidden-md">Supplier</th>
+                    <th class="hidden-lg">Catatan</th>
+                  </tr>
+                </thead>
+                <tbody id="invSiTbody"></tbody>
+              </table>
             </div>
+            <div id="invSiEmpty" class="hidden" style="text-align:center;padding:32px;color:var(--gray-400);font-size:13px">Belum ada transaksi masuk.</div>
           </div>
         </div>
-      </section>
+      </div><!-- /section-inv-stockin -->
 
-      <!-- ========== STOCK OUT PAGE ========== -->
-      <section id="page-stockout" class="page-content hidden">
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-          <div class="lg:col-span-2">
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-5">
-              <h3 class="text-sm font-semibold text-gray-700 mb-4">Form Barang Keluar</h3>
-              <form id="stockOutForm" onsubmit="submitStockOut(event)" class="space-y-3">
-                <div>
-                  <label class="form-label">Produk <span class="text-red-500">*</span></label>
-                  <select id="soProduct" class="form-input" required onchange="updateStockOutInfo()">
+
+      <!-- ═══ SECTION: BARANG KELUAR ═══════════════════════════ -->
+      <div id="section-inv-stockout" class="section">
+        <div style="display:grid;grid-template-columns:2fr 3fr;gap:20px">
+
+          <!-- Form -->
+          <div class="card">
+            <div class="card-header"><h3>Form Barang Keluar</h3></div>
+            <div class="card-body">
+              <form id="invStockOutForm" onsubmit="Inventory.submitStockOut(event)">
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label">Produk *</label>
+                  <select id="invSoProduct" class="form-input" required onchange="Inventory.updateStockInfo()">
                     <option value="">-- Pilih Produk --</option>
                   </select>
-                  <p id="soCurrentStock" class="text-xs text-gray-400 mt-1"></p>
+                  <p id="invSoStockInfo" style="font-size:11px;color:var(--gray-400);margin-top:4px"></p>
                 </div>
-                <div>
-                  <label class="form-label">Jumlah <span class="text-red-500">*</span></label>
-                  <input id="soQty" type="number" min="1" placeholder="Contoh: 5" class="form-input" required />
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label">Jumlah *</label>
+                  <input id="invSoQty" type="number" min="1" placeholder="Contoh: 5" class="form-input" required />
                 </div>
-                <div>
-                  <label class="form-label">Tanggal <span class="text-red-500">*</span></label>
-                  <input id="soDate" type="date" class="form-input" required />
+                <div class="form-group" style="margin-bottom:12px">
+                  <label class="form-label">Tanggal *</label>
+                  <input id="invSoDate" type="date" class="form-input" required />
                 </div>
-                <div>
+                <div class="form-group" style="margin-bottom:12px">
                   <label class="form-label">Tujuan / Keterangan</label>
-                  <input id="soDestination" type="text" placeholder="Contoh: Penjualan harian" class="form-input" />
+                  <input id="invSoDest" type="text" placeholder="Contoh: Penjualan harian" class="form-input" />
                 </div>
-                <div>
+                <div class="form-group" style="margin-bottom:16px">
                   <label class="form-label">Catatan</label>
-                  <textarea id="soNotes" rows="2" placeholder="Catatan tambahan..." class="form-input resize-none"></textarea>
+                  <textarea id="invSoNotes" rows="2" placeholder="Catatan tambahan..." class="form-input" style="resize:vertical"></textarea>
                 </div>
-                <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-2.5 rounded-lg transition-colors">
-                  Simpan Barang Keluar
-                </button>
+                <button type="submit" class="btn" style="width:100%;background:#ef4444;color:white">Simpan Barang Keluar</button>
               </form>
             </div>
           </div>
-          <div class="lg:col-span-3">
-            <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-              <div class="px-5 py-4 border-b border-gray-100">
-                <h3 class="text-sm font-semibold text-gray-700">Riwayat Barang Keluar</h3>
-              </div>
-              <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-                  <thead>
-                    <tr class="bg-gray-50 border-b border-gray-200">
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">ID</th>
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Produk</th>
-                      <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Qty</th>
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Tanggal</th>
-                      <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Tujuan</th>
-                    </tr>
-                  </thead>
-                  <tbody id="stockOutTableBody"></tbody>
-                </table>
-              </div>
-              <div id="stockOutEmpty" class="hidden text-center py-10 text-gray-400 text-sm">Belum ada transaksi keluar</div>
+
+          <!-- Table -->
+          <div class="card">
+            <div class="card-header"><h3>Riwayat Barang Keluar</h3></div>
+            <div class="inv-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th><th>Produk</th><th style="text-align:center">Qty</th>
+                    <th class="hidden-sm">Tanggal</th>
+                    <th class="hidden-md">Tujuan</th>
+                  </tr>
+                </thead>
+                <tbody id="invSoTbody"></tbody>
+              </table>
             </div>
+            <div id="invSoEmpty" class="hidden" style="text-align:center;padding:32px;color:var(--gray-400);font-size:13px">Belum ada transaksi keluar.</div>
           </div>
         </div>
-      </section>
+      </div><!-- /section-inv-stockout -->
 
-      <!-- ========== LOW STOCK PAGE ========== -->
-      <section id="page-lowstock" class="page-content hidden">
-        <div class="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
-          <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-          </svg>
+
+      <!-- ═══ SECTION: STOK MENIPIS ════════════════════════════ -->
+      <div id="section-inv-lowstock" class="section">
+        <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 16px;display:flex;gap:10px;align-items:flex-start;margin-bottom:18px">
+          <svg style="width:18px;height:18px;color:#d97706;flex-shrink:0;margin-top:1px" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
           <div>
-            <p class="text-sm font-semibold text-amber-800">Perhatian Stok Menipis</p>
-            <p class="text-xs text-amber-700 mt-0.5">Produk-produk berikut membutuhkan perhatian segera. Segera lakukan restock untuk menghindari kehabisan stok.</p>
+            <p style="font-size:12px;font-weight:600;color:#92400e">Peringatan Stok Menipis</p>
+            <p style="font-size:11px;color:#b45309;margin-top:2px">Produk berikut stoknya di bawah atau mendekati batas minimum. Segera lakukan restock.</p>
           </div>
         </div>
-        <div id="lowStockGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-        <div id="lowStockEmpty" class="hidden text-center py-16 text-gray-400">
-          <svg class="w-12 h-12 mx-auto mb-3 opacity-40 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-          <p class="text-sm font-medium text-gray-500">Semua stok dalam kondisi aman!</p>
+        <div id="invLowStockGrid" class="low-stock-grid"></div>
+        <div id="invLowStockEmpty" class="hidden" style="text-align:center;padding:60px 24px;color:var(--gray-400)">
+          <svg style="width:48px;height:48px;margin:0 auto 12px;display:block;opacity:.35;color:var(--emerald-500)" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <p style="font-size:13px;font-weight:500;color:var(--gray-500)">Semua stok dalam kondisi aman!</p>
         </div>
-      </section>
+      </div><!-- /section-inv-lowstock -->
 
-      <!-- ========== HISTORY PAGE ========== -->
-      <section id="page-history" class="page-content hidden">
-        <div class="flex flex-col sm:flex-row gap-2 mb-5">
-          <select id="historyTypeFilter" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300" onchange="renderHistoryTable()">
+
+      <!-- ═══ SECTION: RIWAYAT TRANSAKSI ══════════════════════ -->
+      <div id="section-inv-history" class="section">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;align-items:center">
+          <select id="invHistTypeFilter" class="form-input" style="width:auto" onchange="Inventory.renderHistory()">
             <option value="">Semua Jenis</option>
             <option value="in">Barang Masuk</option>
             <option value="out">Barang Keluar</option>
           </select>
-          <input id="historyDateFrom" type="date" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300" onchange="renderHistoryTable()" />
-          <input id="historyDateTo" type="date" class="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-300" onchange="renderHistoryTable()" />
-          <button onclick="clearHistoryFilter()" class="text-sm text-gray-500 hover:text-gray-700 px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">Reset Filter</button>
+          <input id="invHistDateFrom" type="date" class="form-input" style="width:auto" onchange="Inventory.renderHistory()" />
+          <input id="invHistDateTo"   type="date" class="form-input" style="width:auto" onchange="Inventory.renderHistory()" />
+          <button class="btn btn-outline btn-sm" onclick="Inventory.clearHistoryFilter()">Reset Filter</button>
         </div>
-        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm">
+        <div class="card">
+          <div class="inv-table-wrap">
+            <table>
               <thead>
-                <tr class="bg-gray-50 border-b border-gray-200">
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">ID</th>
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Produk</th>
-                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Jenis</th>
-                  <th class="text-center px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Qty</th>
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden sm:table-cell">Tanggal</th>
-                  <th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase hidden md:table-cell">Keterangan</th>
+                <tr>
+                  <th>ID</th><th>Produk</th>
+                  <th style="text-align:center">Jenis</th>
+                  <th style="text-align:center">Qty</th>
+                  <th class="hidden-sm">Tanggal</th>
+                  <th class="hidden-md">Keterangan</th>
                 </tr>
               </thead>
-              <tbody id="historyTableBody"></tbody>
+              <tbody id="invHistTbody"></tbody>
             </table>
           </div>
-          <div id="historyEmpty" class="hidden text-center py-10 text-gray-400 text-sm">Tidak ada riwayat transaksi</div>
+          <div id="invHistEmpty" class="hidden" style="text-align:center;padding:32px;color:var(--gray-400);font-size:13px">Tidak ada riwayat transaksi.</div>
         </div>
-      </section>
+      </div><!-- /section-inv-history -->
 
-    </main>
-  </div>
 
-  <!-- ========== PRODUCT MODAL ========== -->
-  <div id="productModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-40" onclick="closeProductModal()"></div>
-    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-screen overflow-y-auto">
-      <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-        <h3 id="modalTitle" class="text-base font-bold text-gray-900">Tambah Produk</h3>
-        <button onclick="closeProductModal()" class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-          </svg>
-        </button>
-      </div>
-      <form id="productForm" onsubmit="saveProduct(event)" class="px-6 py-5 space-y-4">
-        <input type="hidden" id="productId" />
-        <div class="grid grid-cols-2 gap-4">
-          <div class="col-span-2">
-            <label class="form-label">Nama Produk <span class="text-red-500">*</span></label>
-            <input id="productName" type="text" placeholder="Contoh: Beras Premium 5kg" class="form-input" required />
-          </div>
-          <div>
-            <label class="form-label">SKU <span class="text-red-500">*</span></label>
-            <input id="productSku" type="text" placeholder="Contoh: BRS-001" class="form-input" required />
-          </div>
-          <div>
-            <label class="form-label">Kategori <span class="text-red-500">*</span></label>
-            <input id="productCategory" type="text" placeholder="Contoh: Sembako" class="form-input" required list="categoryList" />
-            <datalist id="categoryList"></datalist>
-          </div>
-          <div>
-            <label class="form-label">Harga Beli (Rp) <span class="text-red-500">*</span></label>
-            <input id="productPurchasePrice" type="number" min="0" placeholder="0" class="form-input" required />
-          </div>
-          <div>
-            <label class="form-label">Harga Jual (Rp) <span class="text-red-500">*</span></label>
-            <input id="productSellingPrice" type="number" min="0" placeholder="0" class="form-input" required />
-          </div>
-          <div>
-            <label class="form-label">Stok Awal <span class="text-red-500">*</span></label>
-            <input id="productStock" type="number" min="0" placeholder="0" class="form-input" required />
-          </div>
-          <div>
-            <label class="form-label">Minimum Stok <span class="text-red-500">*</span></label>
-            <input id="productMinStock" type="number" min="0" placeholder="0" class="form-input" required />
-          </div>
-          <div class="col-span-2">
-            <label class="form-label">Deskripsi</label>
-            <textarea id="productDescription" rows="2" placeholder="Deskripsi produk..." class="form-input resize-none"></textarea>
-          </div>
-        </div>
-        <div class="flex gap-3 pt-2">
-          <button type="button" onclick="closeProductModal()" class="flex-1 text-sm font-medium py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
-          <button type="submit" class="flex-1 text-sm font-medium py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg transition-colors">Simpan</button>
-        </div>
-      </form>
+    </div><!-- /.page-content -->
+  </div><!-- /.main-content -->
+</div><!-- /.app-layout -->
+
+
+<!-- ═══ MODAL: TAMBAH/EDIT PRODUK ═══════════════════════════ -->
+<div id="invProductModal" class="modal-backdrop hidden" onclick="if(event.target===this)Inventory.closeProductModal()">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3 id="invModalTitle">Tambah Produk</h3>
+      <button onclick="Inventory.closeProductModal()" class="btn-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
     </div>
+    <form id="invProductForm" onsubmit="Inventory.saveProduct(event)">
+      <input type="hidden" id="invProductId" />
+      <div class="modal-body">
+        <div class="form-grid-2">
+          <div class="form-group col-span-2">
+            <label class="form-label">Nama Produk *</label>
+            <input id="invProductName" type="text" placeholder="Contoh: Beras Premium 5kg" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">SKU *</label>
+            <input id="invProductSku" type="text" placeholder="BRS-001" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Kategori *</label>
+            <input id="invProductCategory" type="text" placeholder="Sembako" class="form-input" required list="invCategoryDatalist" />
+            <datalist id="invCategoryDatalist"></datalist>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Harga Beli (Rp) *</label>
+            <input id="invProductPurchase" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Harga Jual (Rp) *</label>
+            <input id="invProductSelling" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Stok Saat Ini *</label>
+            <input id="invProductStock" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Minimum Stok *</label>
+            <input id="invProductMinStock" type="number" min="0" placeholder="0" class="form-input" required />
+          </div>
+          <div class="form-group col-span-2">
+            <label class="form-label">Deskripsi</label>
+            <textarea id="invProductDesc" rows="2" placeholder="Deskripsi produk..." class="form-input" style="resize:vertical"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" style="flex:1" onclick="Inventory.closeProductModal()">Batal</button>
+        <button type="submit"  class="btn btn-primary"   style="flex:1">Simpan</button>
+      </div>
+    </form>
   </div>
+</div>
 
-  <!-- ========== DELETE CONFIRM MODAL ========== -->
-  <div id="deleteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
-    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-40" onclick="closeDeleteModal()"></div>
-    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6">
-      <div class="flex items-center gap-4 mb-4">
-        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
-          <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-          </svg>
+<!-- ═══ MODAL: KONFIRMASI HAPUS ════════════════════════════ -->
+<div id="invDeleteModal" class="modal-backdrop hidden" onclick="if(event.target===this)Inventory.closeDeleteModal()">
+  <div class="modal-box" style="max-width:400px" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Hapus Produk</h3>
+      <button onclick="Inventory.closeDeleteModal()" class="btn-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:12px">
+        <div style="width:40px;height:40px;border-radius:50%;background:#fee2e2;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg style="width:18px;height:18px;color:#ef4444" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
         </div>
         <div>
-          <h3 class="text-base font-bold text-gray-900">Hapus Produk</h3>
-          <p id="deleteProductName" class="text-sm text-gray-500 mt-0.5"></p>
+          <p id="invDeleteName" style="font-size:14px;font-weight:600;color:var(--gray-800)"></p>
+          <p style="font-size:12px;color:var(--gray-500);margin-top:4px">Tindakan ini tidak dapat dibatalkan. Semua riwayat transaksi terkait produk ini juga akan dihapus.</p>
         </div>
       </div>
-      <p class="text-sm text-gray-600 mb-5">Tindakan ini tidak dapat dibatalkan. Data produk dan riwayat terkait akan dihapus permanen.</p>
-      <div class="flex gap-3">
-        <button onclick="closeDeleteModal()" class="flex-1 text-sm font-medium py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors">Batal</button>
-        <button onclick="confirmDelete()" class="flex-1 text-sm font-medium py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors">Hapus</button>
-      </div>
+    </div>
+    <div class="modal-footer">
+      <button onclick="Inventory.closeDeleteModal()" class="btn btn-secondary" style="flex:1">Batal</button>
+      <button onclick="Inventory.confirmDelete()"   class="btn" style="flex:1;background:#ef4444;color:white">Hapus</button>
     </div>
   </div>
+</div>
 
-  <!-- Toast Notification -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-[60] space-y-2 pointer-events-none"></div>
+<!-- Toast Container -->
+<div id="toastContainer"></div>
 
-  <script src="script.js"></script>
+<!-- Scripts -->
+<script src="js/dataProcessor.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/inventory.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  // Set header date
+  document.getElementById('headerDate').textContent =
+    new Date().toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+  // Sync export KPI summary when switching to export section
+  document.querySelectorAll('.nav-item[data-section="export"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setTimeout(() => {
+        const rev = document.getElementById('kpiRevenue')?.textContent;
+        const trx = document.getElementById('kpiTransactions')?.textContent;
+        const prd = document.getElementById('kpiProducts')?.textContent;
+        if (rev) document.getElementById('exportKpiRevenue').textContent = rev;
+        if (trx) document.getElementById('exportKpiTrx').textContent = trx;
+        if (prd) document.getElementById('exportKpiProd').textContent = prd;
+      }, 50);
+    });
+  });
+</script>
+
 </body>
 </html>
